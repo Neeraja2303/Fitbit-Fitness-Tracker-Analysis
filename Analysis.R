@@ -23,25 +23,25 @@ head(a)
 
 #Plots
 
-a%>%ggplot(aes(Calories,totalmin))+geom_point()+facet_wrap(~day)
+##Plot-1
+a%>%group_by(day)%>%summarise(s=sum(totalmin))%>%ggplot(aes(day,s,fill=as.factor(day)))+geom_bar(stat = "identity")+scale_fill_hue(c = 70) +theme(legend.position="none")+labs(title="Total Activity Minutes Vs Day",y="Activity Minutes",x="Day")
 
-a%>%group_by(day)%>%summarise(s=sum(totalmin))%>%ggplot(aes(day,s,fill=as.factor(day)))+geom_bar(stat = "identity")+scale_fill_hue(c = 40) +theme(legend.position="none")+labs(title="Total Activity Minutes Vs Day")
+##Plot-2
+a%>%group_by(day)%>%summarise(s=sum(Calories))%>%ggplot(aes(day,s,fill=as.factor(day)))+geom_bar(stat = "identity")+scale_fill_hue(c = 70) +theme(legend.position="none")+labs(title="Total Calories Vs Day",y="Calories",x="Day")
 
-a%>%group_by(day)%>%summarise(s=sum(Calories))%>%ggplot(aes(day,s,fill=as.factor(day)))+geom_bar(stat = "identity")+scale_fill_hue(c = 40) +theme(legend.position="none")+labs(title="Total Calories Vs Day")
+##Plot-3
+a%>%group_by(dayn)%>%summarise(Total_Calories=sum(Calories))%>%ggplot(aes(dayn,Total_Calories,fill=dayn))+geom_bar(stat = "identity")+labs(title="Calories Vs Day of week",x="",y="Total Calories")
 
-a%>%group_by(dayn)%>%summarise(Total_Calories=sum(Calories))%>%ggplot(aes(dayn,Total_Calories,fill=dayn))+geom_bar(stat = "identity")
+##Plot-4
+a%>%group_by(dayn)%>%ggplot(aes(Calories,VeryActiveMinutes,color=dayn))+geom_point()+facet_wrap(~dayn)+labs(title="Calories Vs Very active minutes",color="")
 
-a%>%group_by(dayn)%>%ggplot(aes(Calories,VeryActiveMinutes,color=dayn))+geom_point()+facet_wrap(~dayn)
-
+##Plot-5
 cor(a$VeryActiveDistance,a$TotalSteps)
-
 cor(a$ModeratelyActiveDistance,a$TotalSteps)
-
 cor(a$LightActiveDistance,a$TotalSteps)
 
-
+##Plot-6
 cor(a$SedentaryMinutes,a$Calories)
-
 
 
 # Regression
@@ -55,4 +55,5 @@ summary(fit)
 
 pre=predict(fit,test)
 
-ggplot(data=test,aes(x=1:nrow(test)))+geom_line(aes(y=Calories,color="blue"))+geom_line(aes(y=pre,color="red"))
+#Regression Plot
+ggplot(data=test,aes(x=1:nrow(test)))+geom_line(aes(y=Calories,color="blue"))+geom_line(aes(y=pre,color="red"))+labs(title="Actual Calories Vs Predicted Calories (Test Dataset)",x="",color="")+scale_color_manual(labels = c("Actual", "Predicted"), values = c("red", "black"))
