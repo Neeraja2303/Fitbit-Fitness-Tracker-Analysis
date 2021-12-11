@@ -30,7 +30,7 @@ a%>%group_by(day)%>%summarise(s=sum(totalmin))%>%ggplot(aes(day,s,fill=as.factor
 a%>%group_by(day)%>%summarise(s=sum(Calories))%>%ggplot(aes(day,s,fill=as.factor(day)))+geom_bar(stat = "identity")+scale_fill_hue(c = 70) +theme(legend.position="none")+labs(title="Total Calories Vs Day",y="Calories",x="Day")
 
 ##Plot-3
-a%>%group_by(dayn)%>%summarise(Total_Calories=sum(Calories))%>%ggplot(aes(dayn,Total_Calories,fill=dayn))+geom_bar(stat = "identity")+labs(title="Calories Vs Day of week",x="",y="Total Calories")
+a%>%ggplot(aes(Calories))+geom_density(fill="light blue")+labs(title="Density function of calories",y="")
 
 ##Plot-4
 a%>%group_by(dayn)%>%ggplot(aes(Calories,VeryActiveMinutes,color=dayn))+geom_point()+facet_wrap(~dayn)+labs(title="Calories Vs Very active minutes",color="")
